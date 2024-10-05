@@ -1,19 +1,15 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class BookLanguage : BaseEntity
+public partial class BookLanguage
 {
-    [Column("language_code")]
-    [StringLength(8)]
-    public required string LanguageCode  { get; set; }
-    
-    [Column("language_name")]
-    [StringLength(40)]
-    public required string LanguageName { get; set; }
+    public int LanguageId { get; set; }
+
+    public string? LanguageCode { get; set; }
+
+    public string? LanguageName { get; set; }
 
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 }

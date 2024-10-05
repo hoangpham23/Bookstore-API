@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Infrastructure.Repositories
 {
-	public class UnitOfWork(ApplicationDbContext dbContext) : IUnitOfWork
+	public class UnitOfWork(BookManagementDbContext dbContext) : IUnitOfWork
 	{
 		private bool _disposed = false;
-		private readonly ApplicationDbContext _context = dbContext;
+		private readonly BookManagementDbContext _context = dbContext;
 		public void BeginTransaction()
 		{
 			_context.Database.BeginTransaction();

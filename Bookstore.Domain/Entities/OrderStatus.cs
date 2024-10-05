@@ -1,13 +1,13 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class OrderStatus
+public partial class OrderStatus
 {
-    [Key]
-    public int Id { get; set; }
-    [StringLength(20)]
+    public int StatusId { get; set; }
+
     public string? StatusValue { get; set; }
 
-    public virtual ICollection<OrderHistory> OrderHistories {get; set; } = new List<OrderHistory>();
+    public virtual ICollection<OrderHistory> OrderHistories { get; set; } = new List<OrderHistory>();
 }

@@ -12,9 +12,9 @@ namespace Bookstore.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly ApplicationDbContext _context;
+        protected readonly BookManagementDbContext _context;
         protected readonly DbSet<T> _dbSet;
-        public GenericRepository(ApplicationDbContext context)
+        public GenericRepository(BookManagementDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

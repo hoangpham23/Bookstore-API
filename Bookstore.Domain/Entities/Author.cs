@@ -1,11 +1,13 @@
-using System.ComponentModel.DataAnnotations;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class Author : BaseEntity
+public partial class Author
 {
-    [StringLength(100)]
-    public required string AuthorName { get; set; }
-    public virtual ICollection<Book> Books{ get; set; } = new List<Book>();
+    public int AuthorId { get; set; }
+
+    public string? AuthorName { get; set; }
+
+    public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 }

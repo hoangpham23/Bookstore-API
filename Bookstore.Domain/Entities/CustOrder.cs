@@ -1,26 +1,27 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class CustOrder 
+public partial class CustOrder
 {
-    [Column("order_date")]
+    public int OrderId { get; set; }
+
     public DateTime? OrderDate { get; set; }
 
-    [Column("customer_id")]
-    public required string CustomerId { get; set; }
-    
-    [Column("shipping_method_id")]
-    public required string ShippingIMethodId { get; set; } 
+    public int? CustomerId { get; set; }
 
-    [Column("address_id")]
-    public required string AddressId { get; set; }
-    
-    public virtual Customer? Customer{ get; set; }
-    public virtual Address? Address{ get; set; }
+    public int? ShippingMethodId { get; set; }
+
+    public int? DestAddressId { get; set; }
+
+    public virtual Customer? Customer { get; set; }
+
+    public virtual Address? DestAddress { get; set; }
+
+    public virtual ICollection<OrderHistory> OrderHistories { get; set; } = new List<OrderHistory>();
+
+    public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
 
     public virtual ShippingMethod? ShippingMethod { get; set; }
-    public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
-    public virtual ICollection<OrderHistory> OrderHistories { get; set; } = new List<OrderHistory>();
 }

@@ -1,11 +1,13 @@
-using System.ComponentModel.DataAnnotations;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class Country : BaseEntity
+public partial class Country
 {
-    [StringLength(200)]
-    public required string CountryName { get; set; }
-    public virtual ICollection<Address> Addresses{ get; set; } = new List<Address>();
+    public int CountryId { get; set; }
+
+    public string? CountryName { get; set; }
+
+    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 }

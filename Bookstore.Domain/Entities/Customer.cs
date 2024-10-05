@@ -1,25 +1,19 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class Customer : BaseEntity
+public partial class Customer
 {
-    [StringLength(100)]
-    [Column("first_name")]
-    public required string FirstName { get; set; }
+    public int CustomerId { get; set; }
 
-    [StringLength(100)]
-    [Column("last_name")]
-    public required string LastName { get; set; }    
+    public string? FirstName { get; set; }
 
-    [StringLength(100)]
-    public required string Email { get; set; }
+    public string? LastName { get; set; }
 
-     public virtual ICollection<CustOrder> CustOrders { get; set; } = new List<CustOrder>();
+    public string? Email { get; set; }
+
+    public virtual ICollection<CustOrder> CustOrders { get; set; } = new List<CustOrder>();
 
     public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
 }

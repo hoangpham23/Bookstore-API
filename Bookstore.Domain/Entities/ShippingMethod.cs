@@ -1,16 +1,15 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class ShippingMethod : BaseEntity
+public partial class ShippingMethod
 {
-    [StringLength(100)]
-    public required string MethodName { get; set; }
+    public int MethodId { get; set; }
 
-    [Column(TypeName = "decimal(6, 2)")]
-    public decimal Cost { get; set; }
+    public string? MethodName { get; set; }
+
+    public decimal? Cost { get; set; }
 
     public virtual ICollection<CustOrder> CustOrders { get; set; } = new List<CustOrder>();
 }

@@ -1,10 +1,13 @@
-using System;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class Publisher : BaseEntity
+public partial class Publisher
 {
-    public required string PublisherName { get; set; }
+    public int PublisherId { get; set; }
+
+    public string? PublisherName { get; set; }
+
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 }

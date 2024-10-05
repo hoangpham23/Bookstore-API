@@ -1,16 +1,19 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class OrderHistory : BaseEntity
+public partial class OrderHistory
 {
-    [Column("order_id")]
-    public required string OrderId { get; set; }
-    public virtual CustOrder? Order { get; set; }
-    [Column("status_date")]
+    public int HistoryId { get; set; }
+
+    public int? OrderId { get; set; }
+
+    public int? StatusId { get; set; }
+
     public DateTime? StatusDate { get; set; }
-    [Column("status_id")]
-    public int StatusId { get; set; }
-    public virtual OrderStatus? OrderStatus { get; set; }
+
+    public virtual CustOrder? Order { get; set; }
+
+    public virtual OrderStatus? Status { get; set; }
 }

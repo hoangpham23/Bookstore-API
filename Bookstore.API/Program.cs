@@ -23,7 +23,7 @@ namespace Bookstore.API
 
 			builder.Services.AddApplication().AddInfrastructure();
 
-			builder.Services.AddDbContext<ApplicationDbContext>(options 
+			builder.Services.AddDbContext<BookManagementDbContext>(options 
 				=> options.UseLazyLoadingProxies().UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8,0,29))));
 
 			builder.Services.AddMediatR(typeof(CreatePerson).Assembly);

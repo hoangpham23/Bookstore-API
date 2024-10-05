@@ -1,25 +1,23 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class Address : BaseEntity
+public partial class Address
 {
-    [StringLength(10)]
-    [Column("street_number")]
-    public required string StreetNumber { get; set; }
+    public int AddressId { get; set; }
 
-    [StringLength(200)]
-    [Column("street_name")]
-    public required string StreetName { get; set; }
-    
-    [StringLength(100)]
-    public required string City { get; set; }
+    public string? StreetNumber { get; set; }
 
-    [Column("country_id")]
-    public required string CountryId { get; set; }
+    public string? StreetName { get; set; }
+
+    public string? City { get; set; }
+
+    public int? CountryId { get; set; }
+
     public virtual Country? Country { get; set; }
-    public virtual ICollection<CustOrder> CustOrders{ get; set; } = new List<CustOrder>();
-    public virtual ICollection<CustomerAddress> CustomerAddresses {get; set;} = new List<CustomerAddress>();
+
+    public virtual ICollection<CustOrder> CustOrders { get; set; } = new List<CustOrder>();
+
+    public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
 }

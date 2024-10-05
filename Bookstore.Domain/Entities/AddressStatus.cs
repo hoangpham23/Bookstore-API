@@ -1,12 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class AddressStatus
+public partial class AddressStatus
 {
-    [Key]
-    public int Id { get; set; }
-    [Column("status_value")]
-    public string? StatusValue { get; set; }
+    public int StatusId { get; set; }
+
+    public string? AddressStatus1 { get; set; }
 }

@@ -1,18 +1,19 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class OrderLine : BaseEntity
+public partial class OrderLine
 {
-    [Column("order_id")]
-    public required string OrderId { get; set; }
-    public virtual CustOrder? Order { get; set; }
+    public int LineId { get; set; }
 
-    [Column("book_id")]
-    public required string BookId { get; set; }
+    public int? OrderId { get; set; }
+
+    public int? BookId { get; set; }
+
+    public decimal? Price { get; set; }
+
     public virtual Book? Book { get; set; }
 
-    [Column(TypeName = "decimal(5, 2)")]
-    public decimal? Price { get; set; }
+    public virtual CustOrder? Order { get; set; }
 }

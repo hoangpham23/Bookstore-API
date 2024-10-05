@@ -1,19 +1,17 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Bookstore.Core.Base;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Bookstore.Domain.Entities;
+namespace Bookstore.Infrastructure;
 
-public class CustomerAddress : BaseEntity
+public partial class CustomerAddress
 {
-    [Column("customer_id")]
-    public required string CustomerId { get; set; }
+    public int CustomerId { get; set; }
 
-    [Column("address_id")]
-    public required string AddressId { get; set; }
-    
-    [Column("status_id")]
-    public int StatusId { get; set; }
-    
-    public virtual Customer? Customer{ get; set; } = null!;
-    public virtual Address Address{ get; set; } = null!;
+    public int AddressId { get; set; }
+
+    public int? StatusId { get; set; }
+
+    public virtual Address Address { get; set; } = null!;
+
+    public virtual Customer Customer { get; set; } = null!;
 }
