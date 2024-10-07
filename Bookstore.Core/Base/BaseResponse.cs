@@ -3,36 +3,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Bookstore.Core.Base
 {
 	public class BaseResponse<T>
 	{
-		public T? Data { get; set; }
-		public string? Message { get; set; }
+		[JsonPropertyOrder(1)]
 		public StatusCodeHelper StatusCode { get; set; }
-		public string? Code { get; set; }
+
+		[JsonPropertyOrder(2)]
+		public string Code { get; set; }
+
+		[JsonPropertyOrder(3)]
+		public string? Message { get; set; }
+
+		[JsonPropertyOrder(4)]
+		public T? Data { get; set; }
 		public BaseResponse(StatusCodeHelper statusCode, string code, T? data, string? message)
 		{
-			Data = data;
-			Message = message;
 			StatusCode = statusCode;
 			Code = code;
+			Message = message;
+			Data = data;
 		}
 
 		public BaseResponse(StatusCodeHelper statusCode, string code, T? data)
 		{
-			Data = data;
 			StatusCode = statusCode;
 			Code = code;
+			Data = data;
 		}
 
 		public BaseResponse(StatusCodeHelper statusCode, string code, string? message)
 		{
-			Message = message;
 			StatusCode = statusCode;
 			Code = code;
+			Message = message;
 		}
 
 		public static BaseResponse<T> OkResponse(T? data, string? mess)
@@ -63,6 +71,5 @@ namespace Bookstore.Core.Base
 		{
 			return new BaseResponse<T>(StatusCodeHelper.ServerError, StatusCodeHelper.ServerError.Name(), mess);
 		}
-
 	}
 }

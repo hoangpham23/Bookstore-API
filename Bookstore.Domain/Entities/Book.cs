@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Bookstore.Infrastructure;
 
@@ -18,12 +19,8 @@ public partial class Book
     public DateOnly? PublicationDate { get; set; }
 
     public int? PublisherId { get; set; }
-
     public virtual BookLanguage? Language { get; set; }
-
     public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
-
     public virtual Publisher? Publisher { get; set; }
-
     public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 }

@@ -53,10 +53,9 @@ namespace Bookstore.Infrastructure.Repositories
 		{
 			_context.SaveChanges();
 		}
-
-		public async Task SaveAsync()
-		{
+        public async Task SaveChangeAsync()
+        {
 			await _context.SaveChangesAsync();	
-		}
-	}
+        }
+    }
 }

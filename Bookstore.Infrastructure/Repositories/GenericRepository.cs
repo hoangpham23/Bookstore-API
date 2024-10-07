@@ -33,9 +33,17 @@ namespace Bookstore.Infrastructure.Repositories
 			return await _context.Set<T>().FirstOrDefaultAsync(predicate);
 		}
 
-		public async Task<IList<T>> GetAllAsync()
+		public async Task<IList<T>> GetAllAsync(Expression<Func<IQueryable<T>, IQueryable<T>>>? include)
 		{
-			return await _dbSet.ToListAsync();
+			IQueryable<T> query = _dbSet;
+
+			// Apply Include expressions if provided
+			if (include != null)
+			{
+				query = include.Compile()(query);
+			}
+
+			return await query.ToListAsync();
 		}
 
 		public async Task<T?> GetByIdAsync(object id)
