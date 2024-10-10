@@ -10,7 +10,7 @@ namespace BookStore.Application.QueryHandlers;
 
 public class GetAllBooksHandler : IRequestHandler<GetAllBooks, IList<BookDTO>>
 {
-    private readonly IUnitOfWork _unitOfWork;
+	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
 	public GetAllBooksHandler(IUnitOfWork unitOfWork, IMapper mapper)
 	{
@@ -19,8 +19,8 @@ public class GetAllBooksHandler : IRequestHandler<GetAllBooks, IList<BookDTO>>
 	}
 
 	public async Task<IList<BookDTO>> Handle(GetAllBooks request, CancellationToken cancellationToken)
-    {
-        var bookRepo = _unitOfWork.GetRepository<Book>();
+	{
+		var bookRepo = _unitOfWork.GetRepository<Book>();
 		var books = await bookRepo.GetAllAsync(query => query.Include(b => b.Language));
 
 		var bookDTOs = _mapper.Map<IList<BookDTO>>(books);

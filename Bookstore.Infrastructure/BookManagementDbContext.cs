@@ -59,7 +59,7 @@ public partial class BookManagementDbContext : DbContext
             entity.HasIndex(e => e.CountryId, "fk_addr_ctry");
 
             entity.Property(e => e.AddressId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("address_id");
             entity.Property(e => e.City)
                 .HasMaxLength(100)
@@ -84,7 +84,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("address_status");
 
             entity.Property(e => e.StatusId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("status_id");
             entity.Property(e => e.AddressStatus1)
                 .HasMaxLength(30)
@@ -98,7 +98,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("author");
 
             entity.Property(e => e.AuthorId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("author_id");
             entity.Property(e => e.AuthorName)
                 .HasMaxLength(400)
@@ -116,7 +116,7 @@ public partial class BookManagementDbContext : DbContext
             entity.HasIndex(e => e.PublisherId, "fk_book_pub");
 
             entity.Property(e => e.BookId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("book_id");
             entity.Property(e => e.Isbn13)
                 .HasMaxLength(13)
@@ -167,7 +167,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("book_language");
 
             entity.Property(e => e.LanguageId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("language_id");
             entity.Property(e => e.LanguageCode)
                 .HasMaxLength(8)
@@ -184,7 +184,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("country");
 
             entity.Property(e => e.CountryId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("country_id");
             entity.Property(e => e.CountryName)
                 .HasMaxLength(200)
@@ -231,7 +231,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("customer");
 
             entity.Property(e => e.CustomerId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("customer_id");
             entity.Property(e => e.Email)
                 .HasMaxLength(350)
@@ -328,7 +328,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("order_status");
 
             entity.Property(e => e.StatusId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("status_id");
             entity.Property(e => e.StatusValue)
                 .HasMaxLength(20)
@@ -342,7 +342,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("publisher");
 
             entity.Property(e => e.PublisherId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("publisher_id");
             entity.Property(e => e.PublisherName)
                 .HasMaxLength(400)
@@ -356,7 +356,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("shipping_method");
 
             entity.Property(e => e.MethodId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("method_id");
             entity.Property(e => e.Cost)
                 .HasPrecision(6, 2)

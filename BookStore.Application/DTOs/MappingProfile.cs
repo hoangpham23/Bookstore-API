@@ -6,7 +6,7 @@ using BookStore.Application.Commands;
 namespace BookStore.Application.DTOs
 {
     public class MappingProfile : Profile
-	{
+    {
         // left class is the resource, right class is the destination
         public MappingProfile()
         {
