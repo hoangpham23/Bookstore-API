@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class OrderLine
 {
-    public int LineId { get; set; }
+    public string LineId { get; set; } = null!;
 
-    public int? OrderId { get; set; }
+    public string? OrderId { get; set; }
 
-    public int? BookId { get; set; }
+    public string? BookId { get; set; }
 
     public decimal? Price { get; set; }
 

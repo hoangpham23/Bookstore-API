@@ -1,10 +1,6 @@
-using Bookstore.Domain.Abstractions;
 using Bookstore.Infrastructure;
-using Bookstore.Infrastructure.Repositories;
 using BookStore.Application;
 using Microsoft.EntityFrameworkCore;
-using MediatR;
-//using BookStore.Application.QueryHandlers;
 using Bookstore.Core.Store;
 
 namespace Bookstore.API

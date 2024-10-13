@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Bookstore.Domain.Entites;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Bookstore.Infrastructure;
 
@@ -44,7 +42,7 @@ public partial class BookManagementDbContext : DbContext
 
     public virtual DbSet<ShippingMethod> ShippingMethods { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+       protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
@@ -59,12 +57,16 @@ public partial class BookManagementDbContext : DbContext
             entity.HasIndex(e => e.CountryId, "fk_addr_ctry");
 
             entity.Property(e => e.AddressId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("address_id");
             entity.Property(e => e.City)
                 .HasMaxLength(100)
                 .HasColumnName("city");
-            entity.Property(e => e.CountryId).HasColumnName("country_id");
+            entity.Property(e => e.CountryId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("country_id");
             entity.Property(e => e.StreetName)
                 .HasMaxLength(200)
                 .HasColumnName("street_name");
@@ -84,7 +86,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("address_status");
 
             entity.Property(e => e.StatusId)
-                .ValueGeneratedOnAdd()
+                .ValueGeneratedNever()
                 .HasColumnName("status_id");
             entity.Property(e => e.AddressStatus1)
                 .HasMaxLength(30)
@@ -98,7 +100,8 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("author");
 
             entity.Property(e => e.AuthorId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("author_id");
             entity.Property(e => e.AuthorName)
                 .HasMaxLength(400)
@@ -116,15 +119,22 @@ public partial class BookManagementDbContext : DbContext
             entity.HasIndex(e => e.PublisherId, "fk_book_pub");
 
             entity.Property(e => e.BookId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("book_id");
             entity.Property(e => e.Isbn13)
                 .HasMaxLength(13)
                 .HasColumnName("isbn13");
-            entity.Property(e => e.LanguageId).HasColumnName("language_id");
+            entity.Property(e => e.LanguageId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("language_id");
             entity.Property(e => e.NumPages).HasColumnName("num_pages");
             entity.Property(e => e.PublicationDate).HasColumnName("publication_date");
-            entity.Property(e => e.PublisherId).HasColumnName("publisher_id");
+            entity.Property(e => e.PublisherId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("publisher_id");
             entity.Property(e => e.Title)
                 .HasMaxLength(400)
                 .HasColumnName("title");
@@ -155,8 +165,14 @@ public partial class BookManagementDbContext : DbContext
                             .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                         j.ToTable("book_author");
                         j.HasIndex(new[] { "AuthorId" }, "fk_ba_author");
-                        j.IndexerProperty<int>("BookId").HasColumnName("book_id");
-                        j.IndexerProperty<int>("AuthorId").HasColumnName("author_id");
+                        j.IndexerProperty<string>("BookId")
+                            .HasMaxLength(32)
+                            .IsFixedLength()
+                            .HasColumnName("book_id");
+                        j.IndexerProperty<string>("AuthorId")
+                            .HasMaxLength(32)
+                            .IsFixedLength()
+                            .HasColumnName("author_id");
                     });
         });
 
@@ -167,7 +183,8 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("book_language");
 
             entity.Property(e => e.LanguageId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("language_id");
             entity.Property(e => e.LanguageCode)
                 .HasMaxLength(8)
@@ -184,7 +201,8 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("country");
 
             entity.Property(e => e.CountryId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("country_id");
             entity.Property(e => e.CountryName)
                 .HasMaxLength(200)
@@ -203,13 +221,25 @@ public partial class BookManagementDbContext : DbContext
 
             entity.HasIndex(e => e.ShippingMethodId, "fk_order_ship");
 
-            entity.Property(e => e.OrderId).HasColumnName("order_id");
-            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
-            entity.Property(e => e.DestAddressId).HasColumnName("dest_address_id");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("order_id");
+            entity.Property(e => e.CustomerId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("customer_id");
+            entity.Property(e => e.DestAddressId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("dest_address_id");
             entity.Property(e => e.OrderDate)
                 .HasColumnType("datetime")
                 .HasColumnName("order_date");
-            entity.Property(e => e.ShippingMethodId).HasColumnName("shipping_method_id");
+            entity.Property(e => e.ShippingMethodId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("shipping_method_id");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.CustOrders)
                 .HasForeignKey(d => d.CustomerId)
@@ -231,7 +261,8 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("customer");
 
             entity.Property(e => e.CustomerId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("customer_id");
             entity.Property(e => e.Email)
                 .HasMaxLength(350)
@@ -254,8 +285,14 @@ public partial class BookManagementDbContext : DbContext
 
             entity.HasIndex(e => e.AddressId, "fk_ca_addr");
 
-            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
-            entity.Property(e => e.AddressId).HasColumnName("address_id");
+            entity.Property(e => e.CustomerId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("customer_id");
+            entity.Property(e => e.AddressId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("address_id");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
 
             entity.HasOne(d => d.Address).WithMany(p => p.CustomerAddresses)
@@ -279,8 +316,14 @@ public partial class BookManagementDbContext : DbContext
 
             entity.HasIndex(e => e.StatusId, "fk_oh_status");
 
-            entity.Property(e => e.HistoryId).HasColumnName("history_id");
-            entity.Property(e => e.OrderId).HasColumnName("order_id");
+            entity.Property(e => e.HistoryId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("history_id");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("order_id");
             entity.Property(e => e.StatusDate)
                 .HasColumnType("datetime")
                 .HasColumnName("status_date");
@@ -305,9 +348,18 @@ public partial class BookManagementDbContext : DbContext
 
             entity.HasIndex(e => e.OrderId, "fk_ol_order");
 
-            entity.Property(e => e.LineId).HasColumnName("line_id");
-            entity.Property(e => e.BookId).HasColumnName("book_id");
-            entity.Property(e => e.OrderId).HasColumnName("order_id");
+            entity.Property(e => e.LineId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("line_id");
+            entity.Property(e => e.BookId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("book_id");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(32)
+                .IsFixedLength()
+                .HasColumnName("order_id");
             entity.Property(e => e.Price)
                 .HasPrecision(5, 2)
                 .HasColumnName("price");
@@ -328,7 +380,7 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("order_status");
 
             entity.Property(e => e.StatusId)
-                .ValueGeneratedOnAdd()
+                .ValueGeneratedNever()
                 .HasColumnName("status_id");
             entity.Property(e => e.StatusValue)
                 .HasMaxLength(20)
@@ -342,7 +394,8 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("publisher");
 
             entity.Property(e => e.PublisherId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("publisher_id");
             entity.Property(e => e.PublisherName)
                 .HasMaxLength(400)
@@ -356,7 +409,8 @@ public partial class BookManagementDbContext : DbContext
             entity.ToTable("shipping_method");
 
             entity.Property(e => e.MethodId)
-                .ValueGeneratedOnAdd()
+                .HasMaxLength(32)
+                .IsFixedLength()
                 .HasColumnName("method_id");
             entity.Property(e => e.Cost)
                 .HasPrecision(6, 2)

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class Publisher
 {
-    public int PublisherId { get; set; }
+    public string PublisherId { get; set; } = null!;
 
     public string? PublisherName { get; set; }
 

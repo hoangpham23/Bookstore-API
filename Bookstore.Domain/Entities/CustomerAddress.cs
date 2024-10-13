@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class CustomerAddress
 {
-    public int CustomerId { get; set; }
+    public string CustomerId { get; set; } = null!;
 
-    public int AddressId { get; set; }
+    public string AddressId { get; set; } = null!;
 
     public int? StatusId { get; set; }
 

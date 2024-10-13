@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class Country
 {
-    public int CountryId { get; set; }
+    public string CountryId { get; set; } = null!;
 
     public string? CountryName { get; set; }
 

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class BookLanguage
 {
-    public int LanguageId { get; set; }
+    public string LanguageId { get; set; } = null!;
 
     public string? LanguageCode { get; set; }
 

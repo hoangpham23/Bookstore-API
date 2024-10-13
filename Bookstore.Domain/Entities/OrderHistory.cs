@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class OrderHistory
 {
-    public int HistoryId { get; set; }
+    public string HistoryId { get; set; } = null!;
 
-    public int? OrderId { get; set; }
+    public string? OrderId { get; set; }
 
     public int? StatusId { get; set; }
 

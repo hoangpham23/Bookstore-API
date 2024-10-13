@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bookstore.Infrastructure;
+﻿namespace Bookstore.Domain.Entites;
 
 public partial class ShippingMethod
 {
-    public int MethodId { get; set; }
+    public string MethodId { get; set; } = null!;
 
     public string? MethodName { get; set; }
 

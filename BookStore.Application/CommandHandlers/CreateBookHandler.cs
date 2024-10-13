@@ -1,6 +1,6 @@
 using AutoMapper;
 using Bookstore.Domain.Abstractions;
-using Bookstore.Infrastructure;
+using Bookstore.Domain.Entites;
 using BookStore.Application.Commands;
 using BookStore.Application.DTOs;
 using MediatR;
@@ -23,10 +23,9 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
         {
             _unitOfWork.BeginTransaction();
             var bookRepo = _unitOfWork.GetRepository<Book>();
-
             BookLanguage bookLanguage = await GetOrCreateBookLanguage(request);
             Publisher publisher = await GetOrCreatePublisher(request);
-            await SaveOrderLineAsync(request);
+            // await SaveOrderLineAsync(request);
 
             // mapping the book
             var newBook = _mapper.Map<Book>(request);
@@ -34,9 +33,15 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
 
             await bookRepo.InsertAsync(newBook);
             await _unitOfWork.SaveChangeAsync();
+
+            OrderLine order = await SaveOrderLineAsync(request.Price, newBook.BookId);
+            await _unitOfWork.SaveChangeAsync();
+
             _unitOfWork.CommitTransaction();
 
-            return _mapper.Map<BookDTO>(newBook);
+            var bookDTO = _mapper.Map<BookDTO>(newBook);
+            bookDTO.Price = order.Price;
+            return bookDTO;
         }
         catch (System.Exception)
         {
@@ -54,7 +59,7 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
     private async Task<BookLanguage> GetOrCreateBookLanguage(CreateBook request)
     {
         var languageRepo = _unitOfWork.GetRepository<BookLanguage>();
-        if (request.LanguageId.HasValue)
+        if (!string.IsNullOrEmpty(request.LanguageId))
         {
 
             var bookLanguage = await languageRepo.GetByIdAsync(request.LanguageId);
@@ -87,7 +92,7 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
     private async Task<Publisher> GetOrCreatePublisher(CreateBook request)
     {
         var publisherRepo = _unitOfWork.GetRepository<Publisher>();
-        if (request.PublisherId.HasValue)
+        if (!string.IsNullOrEmpty(request.PublisherId))
         {
             var publisher = await publisherRepo.GetByIdAsync(request.PublisherId);
             if (publisher == null)
@@ -144,9 +149,23 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
     }
 
     // save the price for the book
-    private async Task SaveOrderLineAsync(CreateBook request)
+    private async Task<OrderLine> SaveOrderLineAsync(Decimal price, string bookId)
     {
         var orderLineRepo = _unitOfWork.GetRepository<OrderLine>();
-        await orderLineRepo.InsertAsync(new OrderLine { Price = request.Price });
+
+        // Create a new OrderLine instance
+        var newOrderLine = new OrderLine
+        {
+            BookId = bookId,
+            Price = price
+            // You can also set other properties as needed, e.g. BookId if applicable
+        };
+
+        // Insert the new order line into the repository
+        await orderLineRepo.InsertAsync(newOrderLine);
+
+        // Return the newly created order line
+        return newOrderLine;
     }
+
 }

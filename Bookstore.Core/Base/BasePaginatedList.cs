@@ -13,6 +13,10 @@ namespace Bookstore.Core.Base
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
+        public BasePaginatedList()
+        {
+            Items = new List<T>();
+        }
         public BasePaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize) 
         {
             TotalItems = count;

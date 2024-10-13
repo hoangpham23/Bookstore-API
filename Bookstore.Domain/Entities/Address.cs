@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Bookstore.Infrastructure;
+namespace Bookstore.Domain.Entites;
 
 public partial class Address
 {
-    public int AddressId { get; set; }
+    public string AddressId { get; set; } = null!;
 
     public string? StreetNumber { get; set; }
 
@@ -13,7 +13,7 @@ public partial class Address
 
     public string? City { get; set; }
 
-    public int? CountryId { get; set; }
+    public string? CountryId { get; set; }
 
     public virtual Country? Country { get; set; }
 

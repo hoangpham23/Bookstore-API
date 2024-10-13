@@ -35,20 +35,19 @@ namespace Bookstore.API.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll([FromQuery] int index)
         {
             try
             {
-                var query = new GetAllBooks();
-                var books = await _mediator.Send(query);
+                var books = await _mediator.Send(new GetAllBooks(index));
 
-                if (books == null || books.Count == 0)
+                if (books == null || books.TotalItems == 0)
                 {
                     return NotFound(BaseResponse<string>.NotFoundResponse("Book list is empty"));
                 }
 
-                return Ok(BaseResponse<IList<BookDTO>>.OkResponse(books, null));
+                return Ok(BaseResponse<BasePaginatedList<BookDTO>>.OkResponse(books, null));
 
             }
             catch (Exception ex)
@@ -59,20 +58,21 @@ namespace Bookstore.API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBook([FromQuery] string? languageName = null, [FromQuery] string? title = null){
+        public async Task<IActionResult> SearchBook([FromQuery] int index, [FromQuery] string? languageName = null, [FromQuery] string? title = null){
             try
             {
                 var books = await _mediator.Send(new SearchBook{
+                    Index = index,
                     LanguageName = languageName,
                     Title = title
                 });
 
-                 if (books == null || books.Count == 0)
+                 if (books == null || books.TotalItems == 0)
                 {
                     return NotFound(BaseResponse<string>.NotFoundResponse("Book list is empty"));
                 }
 
-                return Ok(BaseResponse<IList<BookDTO>>.OkResponse(books, null));
+                return Ok(BaseResponse<BasePaginatedList<BookDTO>>.OkResponse(books, null));
             }
             catch (Exception ex)
             {
