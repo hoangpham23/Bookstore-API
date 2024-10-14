@@ -1,8 +1,11 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class OrderLine
 {
-    public string LineId { get; set; } = null!;
+    [Key]
+    public string LineId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? OrderId { get; set; }
 

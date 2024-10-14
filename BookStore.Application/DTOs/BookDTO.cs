@@ -6,6 +6,7 @@
         public string? Title { get; set; }
         public string? Isbn13 { get; set; }
         public string? LanguageName { get; set; } // Add this property for the language name
+        public string? PublisherName { get; set; }
         public int? NumPages { get; set; }
         public DateOnly? PublicationDate { get; set; }
         public Decimal? Price { get; set; }

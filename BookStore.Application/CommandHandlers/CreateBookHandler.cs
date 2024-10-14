@@ -30,6 +30,8 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
             // mapping the book
             var newBook = _mapper.Map<Book>(request);
             newBook.Authors = await GetOrCreateAuthors(request);
+            newBook.Publisher = publisher;
+            newBook.Language = bookLanguage;
 
             await bookRepo.InsertAsync(newBook);
             await _unitOfWork.SaveChangeAsync();
@@ -91,31 +93,39 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
     // if don't create a new record
     private async Task<Publisher> GetOrCreatePublisher(CreateBook request)
     {
-        var publisherRepo = _unitOfWork.GetRepository<Publisher>();
-        if (!string.IsNullOrEmpty(request.PublisherId))
+        try
         {
-            var publisher = await publisherRepo.GetByIdAsync(request.PublisherId);
-            if (publisher == null)
+            var publisherRepo = _unitOfWork.GetRepository<Publisher>();
+            if (!string.IsNullOrEmpty(request.PublisherId))
             {
-                throw new ArgumentException("Publisher is not found");
+                var publisher = await publisherRepo.GetByIdAsync(request.PublisherId);
+                if (publisher == null)
+                {
+                    throw new ArgumentException("Publisher is not found");
 
+                }
+                return publisher;
             }
-            return publisher;
+
+            if (string.IsNullOrEmpty(request.PublisherName))
+            {
+                throw new ArgumentException("Publisher information is required");
+            }
+
+            var newPublisher = new Publisher
+            {
+                PublisherName = request.PublisherName,
+            };
+
+            await publisherRepo.InsertAsync(newPublisher);
+            await _unitOfWork.SaveChangeAsync();
+            return newPublisher;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error when saving the publisher entity: " + ex.Message);
         }
 
-        if (string.IsNullOrEmpty(request.PublisherName))
-        {
-            throw new ArgumentException("Publisher information is required");
-        }
-
-        var newPublisher = new Publisher
-        {
-            PublisherName = request.PublisherName,
-        };
-
-        await publisherRepo.InsertAsync(newPublisher);
-        await _unitOfWork.SaveChangeAsync();
-        return newPublisher;
     }
 
     // if the author id exist then retrieve the author information

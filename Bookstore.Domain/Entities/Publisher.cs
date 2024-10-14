@@ -1,8 +1,11 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class Publisher
 {
-    public string PublisherId { get; set; } = null!;
+    [Key]
+    public string PublisherId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? PublisherName { get; set; }
 

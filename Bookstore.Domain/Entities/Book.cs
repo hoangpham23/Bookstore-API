@@ -1,8 +1,11 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class Book
 {
-    public string BookId { get; set; } = null!;
+    [Key]
+    public string BookId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? Title { get; set; }
 
