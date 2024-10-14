@@ -42,6 +42,9 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
             _unitOfWork.CommitTransaction();
 
             var bookDTO = _mapper.Map<BookDTO>(newBook);
+            bookDTO.AuthorNames = newBook.Authors.Where(a => !string.IsNullOrEmpty(a.AuthorName)) // Filter out null or empty author names
+                                    .Select(x => x.AuthorName!).ToList();
+
             bookDTO.Price = order.Price;
             return bookDTO;
         }
@@ -71,7 +74,7 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
             }
             return bookLanguage;
         }
-        if (string.IsNullOrEmpty(request.LanguageName) || !string.IsNullOrEmpty(request.LanguageCode))
+        if (string.IsNullOrEmpty(request.LanguageName) || string.IsNullOrEmpty(request.LanguageCode))
         {
 
             throw new ArgumentException("Language name and code information is required");
@@ -84,7 +87,6 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
         };
         await languageRepo.InsertAsync(newBookLanguage);
 
-        await _unitOfWork.SaveChangeAsync();
         return newBookLanguage;
     }
 
@@ -118,7 +120,6 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
             };
 
             await publisherRepo.InsertAsync(newPublisher);
-            await _unitOfWork.SaveChangeAsync();
             return newPublisher;
         }
         catch (Exception ex)
@@ -163,18 +164,14 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
     {
         var orderLineRepo = _unitOfWork.GetRepository<OrderLine>();
 
-        // Create a new OrderLine instance
         var newOrderLine = new OrderLine
         {
             BookId = bookId,
             Price = price
-            // You can also set other properties as needed, e.g. BookId if applicable
         };
 
-        // Insert the new order line into the repository
         await orderLineRepo.InsertAsync(newOrderLine);
 
-        // Return the newly created order line
         return newOrderLine;
     }
 

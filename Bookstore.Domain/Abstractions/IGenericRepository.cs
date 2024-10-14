@@ -18,5 +18,6 @@ namespace Bookstore.Domain.Abstractions
         Task InsertAsync(T obj);
         Task UpdateAsync(T obj);
         Task DeleteAsync(object id);
+        Task SaveAsync();
     }
 }

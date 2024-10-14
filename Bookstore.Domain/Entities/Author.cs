@@ -1,10 +1,15 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class Author
 {
-    public string AuthorId { get; set; } = null!;
+    [Key]
+    public string AuthorId { get; set; } = Guid.NewGuid().ToString("N");
 
-    public string? AuthorName { get; set; }
+    public required string AuthorName { get; set; }
 
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+
+
 }

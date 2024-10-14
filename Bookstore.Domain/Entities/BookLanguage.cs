@@ -1,8 +1,11 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class BookLanguage
 {
-    public string LanguageId { get; set; } = null!;
+    [Key]
+    public string LanguageId { get; set; } = Guid.NewGuid ().ToString("N");
 
     public string? LanguageCode { get; set; }
 

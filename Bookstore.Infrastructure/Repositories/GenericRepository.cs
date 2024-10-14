@@ -60,7 +60,13 @@ namespace Bookstore.Infrastructure.Repositories
 		{
 			await _dbSet.AddAsync(obj);
 		}
-		public Task UpdateAsync(T obj)
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public Task UpdateAsync(T obj)
 		{
 			return Task.FromResult(_dbSet.Update(obj));
 		}
