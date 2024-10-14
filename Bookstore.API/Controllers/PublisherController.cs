@@ -19,11 +19,10 @@ namespace Bookstore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchPblisher([FromQuery] int index , [FromQuery] string? publisherName)
+        public async Task<IActionResult> SearchPblisher([FromQuery] SearchPublisher request)
         {
             try
             {
-                var request = new SearchPublisher(index, publisherName);
                 var publishers = await _mediator.Send(request);
                 
                 if (publishers == null || publishers.TotalItems == 0){

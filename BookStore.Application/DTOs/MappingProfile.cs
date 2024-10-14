@@ -24,6 +24,8 @@ namespace BookStore.Application.DTOs
             CreateMap<CreateBook, Book>();
             CreateMap<Publisher, PublisherDTO>()
                     .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
+            CreateMap<BookLanguage, LanguageDTO>()
+                    .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
         }
     }
 }
