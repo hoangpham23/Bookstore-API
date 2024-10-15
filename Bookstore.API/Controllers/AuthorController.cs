@@ -36,5 +36,25 @@ namespace Bookstore.API.Controllers
             }
 
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAuthorById(string id)
+        {
+            try
+            {
+                var request = new GetAuthorById { AuthorId = id };
+                var authorDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<AuthorDTO>.OkResponse(authorDTO, "Author's Information"));
+            }
+            catch(KeyNotFoundException ex){
+                return NotFound(BaseResponse<string>.NotFoundResponse("Error at GetAuthorById: " + ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at Author Controller: " + ex.Message));
+            }
+        }
+
+        
     }
 }

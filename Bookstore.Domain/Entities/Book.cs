@@ -7,7 +7,7 @@ public partial class Book
     [Key]
     public string BookId { get; set; } = Guid.NewGuid().ToString("N");
 
-    public string? Title { get; set; }
+    public required string Title { get; set; }
 
     public string? Isbn13 { get; set; }
 

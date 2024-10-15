@@ -33,7 +33,10 @@ namespace BookStore.Application.DTOs
                     .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
 
             CreateMap<Author, AuthorDTO>()
-                .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
+                .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books.Select(b => new BookTitleDTO{
+                    Title = b.Title,
+                    BookId = b.BookId
+                }).ToList()));
 
             CreateMap<UpdateBook, Book>();
         }
