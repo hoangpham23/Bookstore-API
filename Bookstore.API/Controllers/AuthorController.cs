@@ -1,4 +1,5 @@
 using Bookstore.Core.Base;
+using BookStore.Application.Commands.AuthorCmd;
 using BookStore.Application.DTOs;
 using BookStore.Application.Queries.AuthorQr;
 using MediatR;
@@ -46,7 +47,8 @@ namespace Bookstore.API.Controllers
                 var authorDTO = await _mediator.Send(request);
                 return Ok(BaseResponse<AuthorDTO>.OkResponse(authorDTO, "Author's Information"));
             }
-            catch(KeyNotFoundException ex){
+            catch (KeyNotFoundException ex)
+            {
                 return NotFound(BaseResponse<string>.NotFoundResponse("Error at GetAuthorById: " + ex.Message));
             }
             catch (Exception ex)
@@ -55,6 +57,41 @@ namespace Bookstore.API.Controllers
             }
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> CreatAuthor([FromBody] CreateAuthor request)
+        {
+            try
+            {
+                var authorDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<AuthorDTO>.OkResponse(authorDTO, "Author's Information"));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(BaseResponse<string>.NotFoundResponse("Error at GetAuthorById: " + ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at Author Controller: " + ex.Message));
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAuthor(string id, [FromBody] UpdateAuthor request)
+        {
+            try
+            {
+                request.AuthorId = id;
+                var authorDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<AuthorDTO>.OkResponse(authorDTO, "Author's Information"));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(BaseResponse<string>.NotFoundResponse("Error at GetAuthorById: " + ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at Author Controller: " + ex.Message));
+            }
+        }
     }
 }

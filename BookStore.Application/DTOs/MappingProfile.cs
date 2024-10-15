@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookstore.Domain.Entites;
 using BookStore.Application.Commands;
+using BookStore.Application.Commands.AuthorCmd;
 using BookStore.Application.Queries.PublisherQr;
 
 
@@ -39,6 +40,8 @@ namespace BookStore.Application.DTOs
                 }).ToList()));
 
             CreateMap<UpdateBook, Book>();
+            CreateMap<CreateAuthor, Author>();
+            CreateMap<UpdateAuthor, Author>();
         }
     }
 }
