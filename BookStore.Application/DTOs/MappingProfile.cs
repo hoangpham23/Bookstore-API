@@ -21,16 +21,21 @@ namespace BookStore.Application.DTOs
                        .FirstOrDefault() ?? 0))
                 .ForMember(dest => dest.PublisherName, opt => opt.MapFrom
                             (src => src.Publisher != null ? src.Publisher.PublisherName : "Unknow Publisher"))
-                .ForMember(dest => dest.AuthorNames, opt => opt.MapFrom(src => 
+                .ForMember(dest => dest.AuthorNames, opt => opt.MapFrom(src =>
                 src.Authors != null ? src.Authors.Select(a => a.AuthorName).ToList() : new List<string>()));
+
             CreateMap<CreateBook, Book>();
+
             CreateMap<Publisher, PublisherDTO>()
                     .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
+                    
             CreateMap<BookLanguage, LanguageDTO>()
                     .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
 
             CreateMap<Author, AuthorDTO>()
                 .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Books.Select(b => b.Title).ToList()));
+
+            CreateMap<UpdateBook, Book>();
         }
     }
 }
