@@ -1,5 +1,6 @@
 using Bookstore.Core.Base;
 using Bookstore.Domain.Entites;
+using BookStore.Application.Commands.LanguageCmd;
 using BookStore.Application.DTOs;
 using BookStore.Application.Queries.LanguageQr;
 using MediatR;
@@ -38,17 +39,18 @@ namespace Bookstore.API.Controllers
                 return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at seach controller: " + ex.Message));
             }
         }
-    
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLanguageById(string id)
         {
             try
             {
-                var request = new GetLanguageById{ LanguageId = id};
+                var request = new GetLanguageById { LanguageId = id };
                 var languageDTO = await _mediator.Send(request);
                 return Ok(BaseResponse<LanguageDTO>.OkResponse(languageDTO, "Language information"));
             }
-            catch(KeyNotFoundException ex){
+            catch (KeyNotFoundException ex)
+            {
                 return NotFound(BaseResponse<string>.NotFoundResponse("Error at the Language Controller: " + ex.Message));
             }
             catch (Exception ex)
@@ -56,6 +58,42 @@ namespace Bookstore.API.Controllers
                 return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at the Language controller: " + ex.Message));
             }
         }
-    
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateLanguage([FromBody] CreateLanguage request)
+        {
+            try
+            {
+                var languageDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<LanguageDTO>.OkResponse(languageDTO, "Language information"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at the Language controller: " + ex.Message));
+            }
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateLanguage(string id, [FromBody] UpdateLanguage request)
+        {
+            try
+            {
+                request.LanguageId = id;
+                var languageDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<LanguageDTO>.OkResponse(languageDTO, "Language information"));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(BaseResponse<string>.NotFoundResponse("Error at the Language Controller: " + ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, BaseResponse<string>.InternalErrorResponse("Error at the Language controller: " + ex.Message));
+            }
+        }
+
+
     }
 }
