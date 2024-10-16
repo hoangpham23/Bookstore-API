@@ -1,8 +1,12 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class Customer
 {
-    public string CustomerId { get; set; } = null!;
+    [Key]
+    public string CustomerId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? FirstName { get; set; }
 

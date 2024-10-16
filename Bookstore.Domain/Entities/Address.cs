@@ -5,7 +5,7 @@ namespace Bookstore.Domain.Entites;
 
 public partial class Address
 {
-    public string AddressId { get; set; } = null!;
+    public string AddressId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? StreetNumber { get; set; }
 
