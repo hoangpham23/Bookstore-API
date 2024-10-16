@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookstore.Domain.Entites;
 using BookStore.Application.Commands;
+using BookStore.Application.Commands.AddressCmd;
 using BookStore.Application.Commands.AuthorCmd;
 using BookStore.Application.Commands.CustomerCmd;
 using BookStore.Application.Commands.LanguageCmd;
@@ -65,6 +66,17 @@ namespace BookStore.Application.DTOs
 
             CreateMap<UpdateCustomer, Customer>();
             CreateMap<UpdateCustomer, Address>();
+
+            CreateMap<Address, AddressDTO>()
+                .ForMember(dest => dest.Customers, opt => opt.MapFrom
+                                (src => src.CustomerAddresses))
+                .ForMember(dest => dest.CountryName, opt => opt.MapFrom
+                                (src => src.Country != null ? src.Country.CountryName : "Unknow Country"));
+
+            CreateMap<Customer, CustomerSummaryDTO>();
+
+            CreateMap<CustomerAddress, CustomerSummaryDTO>().IncludeMembers(src => src.Customer);
+            CreateMap<UpdateAddress, Address>();
         }
     }
 }
