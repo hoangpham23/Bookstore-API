@@ -11,7 +11,7 @@ public partial class OrderLine
 
     public string? BookId { get; set; }
 
-    public decimal? Price { get; set; }
+    public decimal Price { get; set; }
 
     public virtual Book? Book { get; set; }
 

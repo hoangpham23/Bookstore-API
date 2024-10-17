@@ -21,7 +21,7 @@ namespace BookStore.Application.DTOs
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.OrderLines
                        .Where(ol => ol.BookId == src.BookId)
                        .Select(ol => ol.Price)
-                       .FirstOrDefault() ?? 0))
+                       .FirstOrDefault()))
                 .ForMember(dest => dest.PublisherName, opt => opt.MapFrom
                             (src => src.Publisher != null ? src.Publisher.PublisherName : "Unknow Publisher"))
                 .ForMember(dest => dest.AuthorNames, opt => opt.MapFrom(src =>
@@ -78,9 +78,17 @@ namespace BookStore.Application.DTOs
             CreateMap<Customer, OrderCustomerDTO>();
             CreateMap<CustOrder, CustOrderDTO>();
             CreateMap<ShippingMethod, ShippingDTO>();
+            
             CreateMap<OrderLine, OrderBooksDTO>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Book != null ? src.Book.Title : "Unknow Title"))
                 .ForMember(dest => dest.Isbn13, opt => opt.MapFrom(src => src.Book != null ? src.Book.Isbn13 : "Unknow ISBN13"));
+
+
+            CreateMap<OrderHistory, OrderHistoryDTO>()
+                .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status.StatusValue))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Order.OrderLines.Sum(ol => ol.Price)))
+                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order.OrderLines.FirstOrDefault())); // Map the first OrderLine
+
         }
     }
 }
