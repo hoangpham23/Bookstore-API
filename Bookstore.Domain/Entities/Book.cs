@@ -14,6 +14,7 @@ public partial class Book
     public string? LanguageId { get; set; }
 
     public int? NumPages { get; set; }
+    public required decimal Price { get; set; }
 
     public DateOnly? PublicationDate { get; set; }
 

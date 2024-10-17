@@ -5,5 +5,8 @@ namespace BookStore.Application.Commands.OrderCmd;
 
 public class CreateOrder : IRequest<CustOrderDTO>
 {
-    public string? CustomerId { get; set; }
+    public required string CustomerId { get; set; }
+    public required string AddressId { get; set; }
+    public required string ShippingMethodId { get; set; }
+    
 }
