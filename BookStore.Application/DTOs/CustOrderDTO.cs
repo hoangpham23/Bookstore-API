@@ -10,6 +10,7 @@ public class CustOrderDTO
     public DateTime OrderDate { get; set; }
     // in this DTO will include the Address information
     public  OrderCustomerDTO? Customer { get; set; }
-    public  ShippingDTO? Shipping { get; set; }
     public List<OrderBooksDTO> OrderBooks { get; set; } = new List<OrderBooksDTO>();
+    public  ShippingDTO? Shipping { get; set; }
+    public decimal TotalPrice { get; set; }
 }

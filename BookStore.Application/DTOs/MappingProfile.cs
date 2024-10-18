@@ -86,8 +86,11 @@ namespace BookStore.Application.DTOs
 
             CreateMap<OrderHistory, OrderHistoryDTO>()
                 .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status != null ? src.Status.StatusValue : "Unknow status"))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Order != null ? src.Order.OrderLines.Sum(ol => ol.Price) : 0))
-                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order != null ? src.Order.OrderLines : null)); // Map the first OrderLine
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => (src.Order != null && src.Order.ShippingMethod != null) 
+                                                                                ? src.Order.OrderLines.Sum(ol => ol.Price) + src.Order.ShippingMethod.Cost : 0))
+                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order != null ? src.Order.OrderLines : null)) // Map the first OrderLine
+                .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => (src.Order != null && src.Order.ShippingMethod != null) 
+                                                                                ? src.Order.ShippingMethod.Cost : 0));
 
             CreateMap<CreateOrder, CustOrder>();
             CreateMap<Book, OrderBooksDTO>();

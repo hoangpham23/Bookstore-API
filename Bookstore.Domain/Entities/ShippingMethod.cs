@@ -6,7 +6,7 @@ public partial class ShippingMethod
 
     public string? MethodName { get; set; }
 
-    public decimal? Cost { get; set; }
+    public decimal Cost { get; set; }
 
     public virtual ICollection<CustOrder> CustOrders { get; set; } = new List<CustOrder>();
 }

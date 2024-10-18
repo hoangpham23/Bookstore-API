@@ -4,9 +4,10 @@ public class OrderHistoryDTO
 {
     public string OrderId { get; set; }
     public List<OrderBooksDTO> OrderBooks { get; set; }
-    public decimal TotalPrice { get; set; }
-    public string OrderStatus { get; set; }
     public DateTime StatusDate { get; set; }
+    public string OrderStatus { get; set; }
+    public decimal ShippingPrice { get; set; }
+    public decimal TotalPrice { get; set; }
 
     public OrderHistoryDTO()
     {

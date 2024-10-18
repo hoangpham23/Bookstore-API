@@ -77,6 +77,9 @@ public class CreateOrderHandler : IRequestHandler<CreateOrder, CustOrderDTO>
             result.Shipping = _mapper.Map<ShippingDTO>(newOrder.ShippingMethod);
             result.OrderBooks = _mapper.Map<List<OrderBooksDTO>>(newOrder.OrderLines);
             
+            if (newOrder.ShippingMethod == null) throw new KeyNotFoundException("An error occurred while calculate the total price for order");
+            result.TotalPrice = newOrder.OrderLines.Sum(ol => ol.Price) + newOrder.ShippingMethod.Cost;
+            
             return result;
         }
         catch (Exception ex)
