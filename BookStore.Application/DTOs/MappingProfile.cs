@@ -6,6 +6,7 @@ using BookStore.Application.Commands.AuthorCmd;
 using BookStore.Application.Commands.CustomerCmd;
 using BookStore.Application.Commands.LanguageCmd;
 using BookStore.Application.Commands.OrderCmd;
+using BookStore.Application.Commands.ShippingCmd;
 
 
 namespace BookStore.Application.DTOs
@@ -94,6 +95,9 @@ namespace BookStore.Application.DTOs
 
             CreateMap<CreateOrder, CustOrder>();
             CreateMap<Book, OrderBooksDTO>();
+
+            CreateMap<CreateShippingMethod, ShippingMethod>();
+            CreateMap<UpdateShippingMethod, ShippingMethod>();
         }
     }
 }

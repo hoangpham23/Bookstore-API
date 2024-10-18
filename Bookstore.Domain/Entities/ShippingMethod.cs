@@ -1,8 +1,12 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class ShippingMethod
 {
-    public string MethodId { get; set; } = null!;
+    [Key]
+    public string MethodId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? MethodName { get; set; }
 

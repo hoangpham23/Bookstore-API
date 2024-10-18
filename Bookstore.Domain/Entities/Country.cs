@@ -1,8 +1,11 @@
-﻿namespace Bookstore.Domain.Entites;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookstore.Domain.Entites;
 
 public partial class Country
 {
-    public string CountryId { get; set; } = null!;
+    [Key]
+    public string CountryId { get; set; } = Guid.NewGuid().ToString("N");
 
     public string? CountryName { get; set; }
 
