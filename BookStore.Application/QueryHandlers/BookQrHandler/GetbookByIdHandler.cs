@@ -28,7 +28,6 @@ public class GetBookByIdHandler : IRequestHandler<GetBookById, BookDTO>
             var book = await bookRepo.Entities
                             .Include(b => b.Language)
                             .Include(b => b.Publisher)
-                            .Include(b => b.OrderLines)
                             .Include(b => b.Authors).FirstOrDefaultAsync(b => b.BookId == request.Id);
             if (book == null) throw new KeyNotFoundException("The book doens't exist");
             return _mapper.Map<BookDTO>(book);

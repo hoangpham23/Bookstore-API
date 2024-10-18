@@ -10,7 +10,7 @@
         public string? PublisherName { get; set; }
         public int? NumPages { get; set; }
         public DateOnly? PublicationDate { get; set; }
-        public Decimal? Price { get; set; }
+        public required decimal Price { get; set; }
     }
 
 }

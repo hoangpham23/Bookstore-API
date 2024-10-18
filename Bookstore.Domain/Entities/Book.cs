@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bookstore.Domain.Entites;
 
@@ -14,6 +15,7 @@ public partial class Book
     public string? LanguageId { get; set; }
 
     public int? NumPages { get; set; }
+	[Column(TypeName = "decimal(5,2)")]
     public required decimal Price { get; set; }
 
     public DateOnly? PublicationDate { get; set; }

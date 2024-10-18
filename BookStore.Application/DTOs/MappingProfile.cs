@@ -18,10 +18,6 @@ namespace BookStore.Application.DTOs
                 .ForMember(dest => dest.LanguageName, opt => opt.MapFrom
                             (src => src.Language != null ? src.Language.LanguageName : "Unknown Language"))
                 // if it deosn't include order in it will return 0 
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.OrderLines
-                       .Where(ol => ol.BookId == src.BookId)
-                       .Select(ol => ol.Price)
-                       .FirstOrDefault()))
                 .ForMember(dest => dest.PublisherName, opt => opt.MapFrom
                             (src => src.Publisher != null ? src.Publisher.PublisherName : "Unknow Publisher"))
                 .ForMember(dest => dest.AuthorNames, opt => opt.MapFrom(src =>

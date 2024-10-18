@@ -36,7 +36,6 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
             await bookRepo.InsertAsync(newBook);
             await _unitOfWork.SaveChangeAsync();
 
-            OrderLine order = await SaveOrderLineAsync(request.Price, newBook.BookId);
             await _unitOfWork.SaveChangeAsync();
 
             _unitOfWork.CommitTransaction();
@@ -45,7 +44,6 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
             bookDTO.AuthorNames = newBook.Authors.Where(a => !string.IsNullOrEmpty(a.AuthorName)) // Filter out null or empty author names
                                     .Select(x => x.AuthorName!).ToList();
 
-            bookDTO.Price = order.Price;
             return bookDTO;
         }
         catch (System.Exception)
@@ -159,20 +157,5 @@ public class CreateBookHandler : IRequestHandler<CreateBook, BookDTO>
         return existingAuthors.Concat(newAuthors).ToList();
     }
 
-    // save the price for the book
-    private async Task<OrderLine> SaveOrderLineAsync(Decimal price, string bookId)
-    {
-        var orderLineRepo = _unitOfWork.GetRepository<OrderLine>();
-
-        var newOrderLine = new OrderLine
-        {
-            BookId = bookId,
-            Price = price
-        };
-
-        await orderLineRepo.InsertAsync(newOrderLine);
-
-        return newOrderLine;
-    }
 
 }
