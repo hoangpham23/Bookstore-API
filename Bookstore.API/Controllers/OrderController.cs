@@ -1,4 +1,5 @@
 using Bookstore.Core.Base;
+using BookStore.Application.Commands.OrderCmd;
 using BookStore.Application.DTOs;
 using BookStore.Application.QueryHandlers.CustOrderQrHandler;
 using MediatR;
@@ -23,14 +24,29 @@ namespace Bookstore.API.Controllers
             try
             {
                 var request = new GetCustOrderById { OrderId = id };
-            var custOrderDTO = await _mediator.Send(request);
-            return Ok(BaseResponse<CustOrderDTO>.OkResponse(custOrderDTO, "Order information"));
+                var custOrderDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<CustOrderDTO>.OkResponse(custOrderDTO, "Order information"));
             }
             catch (Exception ex)
             {
                 return HandleException(ex, "Order Controller");
             }
 
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrder request)
+        {
+            try
+            {
+                var custOrderDTO = await _mediator.Send(request);
+                return Ok(BaseResponse<CustOrderDTO>.OkResponse(custOrderDTO, "Order information"));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex, "Order Controller");
+            }
         }
     }
 }

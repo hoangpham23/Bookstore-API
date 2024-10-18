@@ -21,11 +21,11 @@ public class GetAddressByIdHandler : IRequestHandler<GetAddressById, AddressDTO>
 
     public async Task<AddressDTO> Handle(GetAddressById request, CancellationToken cancellationToken)
     {
-        var addressRepo = _unitOfWork.GetRepository<Address>();
-        IQueryable<Address> query = addressRepo.Entities.Include(ca => ca.CustomerAddresses).ThenInclude(c => c.Customer);
-        var address = await query.FirstOrDefaultAsync(a => a.AddressId == request.AddressId);
-        if (address == null) throw new KeyNotFoundException("The address doesn't exist");
+        var custAddressRepo = _unitOfWork.GetRepository<CustomerAddress>();
+        IQueryable<CustomerAddress> query = custAddressRepo.Entities.Include(ca => ca.Address );
+        var custAddress = await query.FirstOrDefaultAsync(ca => ca.CustomerId == request.AddressId);
+        if (custAddress == null) throw new KeyNotFoundException("The address doesn't exist");
 
-        return _mapper.Map<AddressDTO>(address);
+        return _mapper.Map<AddressDTO>(custAddress.Address);
     }
 }

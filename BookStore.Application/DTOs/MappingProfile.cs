@@ -5,6 +5,7 @@ using BookStore.Application.Commands.AddressCmd;
 using BookStore.Application.Commands.AuthorCmd;
 using BookStore.Application.Commands.CustomerCmd;
 using BookStore.Application.Commands.LanguageCmd;
+using BookStore.Application.Commands.OrderCmd;
 
 
 namespace BookStore.Application.DTOs
@@ -56,8 +57,11 @@ namespace BookStore.Application.DTOs
             CreateMap<Customer, CustomerDTO>()
                 .ForMember(dest => dest.Addresses, opt => opt.MapFrom(src => src.CustomerAddresses));
 
-            CreateMap<Customer, CustomerDTO>()
-           .ForMember(dest => dest.Addresses, opt => opt.Ignore());
+            CreateMap<Address, AddressDTO>()
+                .ForMember(dest => dest.Customers, opt => opt.MapFrom
+                                (src => src.CustomerAddresses))
+                .ForMember(dest => dest.CountryName, opt => opt.MapFrom
+                                (src => src.Country != null ? src.Country.CountryName : "Unknow Country"));
 
             CreateMap<CreateCustomer, Customer>();
             CreateMap<CreateCustomer, Address>();
@@ -74,17 +78,19 @@ namespace BookStore.Application.DTOs
             CreateMap<Customer, OrderCustomerDTO>();
             CreateMap<CustOrder, CustOrderDTO>();
             CreateMap<ShippingMethod, ShippingDTO>();
-            
+
             CreateMap<OrderLine, OrderBooksDTO>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Book != null ? src.Book.Title : "Unknow Title"))
                 .ForMember(dest => dest.Isbn13, opt => opt.MapFrom(src => src.Book != null ? src.Book.Isbn13 : "Unknow ISBN13"));
 
 
             CreateMap<OrderHistory, OrderHistoryDTO>()
-                .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status.StatusValue))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Order.OrderLines.Sum(ol => ol.Price)))
-                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order.OrderLines)); // Map the first OrderLine
+                .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status != null ? src.Status.StatusValue : "Unknow status"))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Order != null ? src.Order.OrderLines.Sum(ol => ol.Price) : 0))
+                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order != null ? src.Order.OrderLines : null)); // Map the first OrderLine
 
+            CreateMap<CreateOrder, CustOrder>();
+            CreateMap<Book, OrderBooksDTO>();
         }
     }
 }

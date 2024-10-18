@@ -33,7 +33,7 @@ public class GetAllOrderHistoryHandler : IRequestHandler<GetAllOrderHistory, Bas
 
         // Fetch the latest order history entries
         var latestOrderHistories = await orderHistoryRepo.Entities
-            .Include(oh => oh.Order).ThenInclude(o => o.OrderLines)
+            .Include(oh => oh.Order).ThenInclude(o => o != null ? o.OrderLines : null)
             .Where(oh => orderIds.Contains(oh.OrderId) && oh.StatusId == request.OrderStatus)
             .OrderByDescending(oh => oh.StatusDate)
             .ToListAsync();
