@@ -26,16 +26,30 @@ public class GetAllOrderHistoryHandler : IRequestHandler<GetAllOrderHistory, Bas
         var custOrderRepo = _unitOfWork.GetRepository<CustOrder>();
         var orderHistoryRepo = _unitOfWork.GetRepository<OrderHistory>();
 
-        var order = await custOrderRepo.FindByConditionAsync(co => co.CustomerId == request.CustomerId);
-        if (order == null) throw new KeyNotFoundException("This customer doesn't have order information");
+        IList<CustOrder> order = await custOrderRepo.GetAllAsync(query => query.Where(co => co.CustomerId == request.CustomerId));
+        if (order == null || order.Count == 0) throw new KeyNotFoundException("This customer doesn't have order information");
 
-        // var orderHistory = await orderHistoryRepo.FindByConditionAsync(o => o.OrderId == order.OrderId);
-        IQueryable<OrderHistory> query =  orderHistoryRepo.Entities
-                                        .Include(o => o.Order).ThenInclude(co => co.OrderLines)
-                                        .Where(oh => oh.OrderId == order.OrderId && oh.Status.StatusId == request.OrderStatus);
-        var paginatedListOrderHistory = await orderHistoryRepo.GetPagging(query, request.Index, PAGE_SIZE);
+        var orderIds = order.Select(o => o.OrderId).ToList();
 
-        var orderHistoryDTO = _mapper.Map<IReadOnlyCollection<OrderHistoryDTO>>(paginatedListOrderHistory.Items);
-        return new BasePaginatedList<OrderHistoryDTO>(orderHistoryDTO, paginatedListOrderHistory.TotalItems, request.Index, PAGE_SIZE);
+        // Fetch the latest order history entries
+        var latestOrderHistories = await orderHistoryRepo.Entities
+            .Include(oh => oh.Order).ThenInclude(o => o.OrderLines)
+            .Where(oh => orderIds.Contains(oh.OrderId) && oh.StatusId == request.OrderStatus)
+            .OrderByDescending(oh => oh.StatusDate)
+            .ToListAsync();
+
+        var orderHistoryFiltered = latestOrderHistories
+            .GroupBy(o => o.OrderId)
+            .Select(o => o.FirstOrDefault())
+            .ToList();
+
+
+        var paginatedOrderHistory = orderHistoryFiltered
+            .Skip((request.Index - 1) * PAGE_SIZE)
+            .Take(PAGE_SIZE)
+            .ToList();
+
+        var orderHistoryDTO = _mapper.Map<IReadOnlyCollection<OrderHistoryDTO>>(paginatedOrderHistory);
+        return new BasePaginatedList<OrderHistoryDTO>(orderHistoryDTO, paginatedOrderHistory.Count, request.Index, PAGE_SIZE);
     }
 }

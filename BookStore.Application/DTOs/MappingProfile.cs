@@ -83,7 +83,7 @@ namespace BookStore.Application.DTOs
             CreateMap<OrderHistory, OrderHistoryDTO>()
                 .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status.StatusValue))
                 .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Order.OrderLines.Sum(ol => ol.Price)))
-                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order.OrderLines.FirstOrDefault())); // Map the first OrderLine
+                .ForMember(dest => dest.OrderBooks, opt => opt.MapFrom(src => src.Order.OrderLines)); // Map the first OrderLine
 
         }
     }

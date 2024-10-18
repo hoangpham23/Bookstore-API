@@ -3,7 +3,7 @@ namespace BookStore.Application.DTOs;
 public class OrderHistoryDTO
 {
     public string OrderId { get; set; }
-    public OrderBooksDTO OrderBooks { get; set; }
+    public List<OrderBooksDTO> OrderBooks { get; set; }
     public decimal TotalPrice { get; set; }
     public string OrderStatus { get; set; }
     public DateTime StatusDate { get; set; }
@@ -11,7 +11,7 @@ public class OrderHistoryDTO
     public OrderHistoryDTO()
     {
         OrderId = string.Empty; 
-        OrderBooks = new OrderBooksDTO(); 
+        OrderBooks = new List<OrderBooksDTO>(); 
         TotalPrice = 0.0m;
         OrderStatus = string.Empty; 
         StatusDate = new DateTime();
