@@ -6,7 +6,6 @@ using BookStore.Application.Commands.OrderCmd;
 using BookStore.Application.DTOs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookStore.Application.CommandHandlers.OrderCmdHandler;
 
