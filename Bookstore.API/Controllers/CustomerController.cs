@@ -3,6 +3,7 @@ using BookStore.Application.Commands.CustomerCmd;
 using BookStore.Application.DTOs;
 using BookStore.Application.Queries.CustomerQr;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore.API.Controllers
@@ -18,6 +19,7 @@ namespace Bookstore.API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "CUSTOMER")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomerById(string id)
         {
