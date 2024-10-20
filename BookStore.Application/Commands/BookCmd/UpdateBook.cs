@@ -7,6 +7,7 @@ namespace BookStore.Application.Commands;
 
 public class UpdateBook : IRequest<BookDTO>
 {
+    [JsonIgnore]
     public string? BookId { get; set; }
     public required string Title { get; set; }
     public required string Isbn13 { get; set; }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using BookStore.Application.DTOs;
 using MediatR;
 
@@ -6,6 +7,7 @@ namespace BookStore.Application.Commands.CustomerCmd;
 
 public class UpdateCustomer : IRequest<CustomerDTO>
 {
+    [JsonIgnore]
     public string? CustomerId { get; set; }
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
